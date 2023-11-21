@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { TaskService } from '../task.service';
 import { Task } from '../task';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -13,10 +14,9 @@ import { Task } from '../task';
   styleUrl: './task-list.component.css'
 })
 export class TaskListComponent {
-  tasks: Task[] = [];
-  taskService: TaskService = inject(TaskService);
+  tasks$!: Observable<Task[]>;
 
-  constructor() {
-    this.tasks = this.taskService.getTasks();
+  constructor(private taskService: TaskService) {
+    this.tasks$ = taskService.getTasks();
   }
 }
