@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Task } from '../task';
 
 @Component({
   selector: 'app-task-item',
@@ -9,5 +10,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './task-item.component.css'
 })
 export class TaskItemComponent {
-  @Input() task: string = '';
+  @Input() task: Task | null = null;
 }

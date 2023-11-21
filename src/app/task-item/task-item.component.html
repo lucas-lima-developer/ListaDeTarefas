@@ -1,3 +1,6 @@
-<li>
-    {{ task }}
+<li *ngIf="task">
+    <strong>{{ task.title }}</strong>
+    <p>{{ task.description }}</p>
+    <p *ngIf="task.isCompleted; else notCompleted">Concluída em: {{ task.completionDate | date }}</p>
+    <ng-template #notCompleted>A fazer</ng-template>
 </li>

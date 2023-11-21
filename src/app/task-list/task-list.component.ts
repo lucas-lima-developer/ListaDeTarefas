@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TaskItemComponent } from '../task-item/task-item.component';
 import { TaskService } from '../task.service';
+import { Task } from '../task';
 
 @Component({
   selector: 'app-task-list',
@@ -12,7 +13,7 @@ import { TaskService } from '../task.service';
   styleUrl: './task-list.component.css'
 })
 export class TaskListComponent {
-  tasks: string[] = [];
+  tasks: Task[] = [];
   taskService: TaskService = inject(TaskService);
 
   constructor() {
