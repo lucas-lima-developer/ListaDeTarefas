@@ -1,0 +1,33 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (submit)="submitLoginForm()">
+    <label for="email">Email:</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      formControlName="email"
+      required
+    />
+
+    <label for="password">Senha:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      formControlName="password"
+      required
+    />
+
+    <button type="submit">Entrar</button>
+  </form>
+
+  <div class="signup-link">
+    <p>Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
+  </div>
+
+  <div class="error-message">
+    <p *ngIf="errorMessage">
+      {{ errorMessage }}
+    </p>
+  </div>
+</div>
