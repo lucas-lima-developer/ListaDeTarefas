@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 
 @Injectable({
@@ -8,8 +8,8 @@ import { BehaviorSubject, Observable, catchError, map } from 'rxjs';
 })
 export class UserService {
   private apiUrl = 'https://localhost:7173/api/user';
+
   private userToken = new BehaviorSubject<string | null>(null);
-  private errorMessage = new BehaviorSubject<string | null>(null);
 
   constructor(private http: HttpClient) { }
 
@@ -22,10 +22,6 @@ export class UserService {
           this.userToken.next(response.body.token);
           return response.body.token;
         }
-        throw new Error('Token não disponível');
-      }),
-      catchError(error => {
-        throw error;
       })
     );
   }
@@ -34,10 +30,6 @@ export class UserService {
     const body = { email, password };
 
     return this.http.post(`${this.apiUrl}/register`, body, { observe: 'response' })
-  }
-
-  getErrorMessage() {
-    return this.errorMessage.asObservable();
   }
 
   getToken() : BehaviorSubject<string | null> {
