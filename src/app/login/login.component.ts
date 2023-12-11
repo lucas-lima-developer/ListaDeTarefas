@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,17 +16,20 @@ export class LoginComponent {
     password: new FormControl('')
   });
 
-  errorMessage: string = ''
+  errorMessage: string | null = null;
+  token :string | null = null;
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit() {
-    this.authService.getErrorMessage().subscribe(errorMessage => {
-      this.errorMessage = errorMessage
-    })
-  }
+  constructor(private UserService: UserService) {}
 
   submitLoginForm() {
-    this.authService.login(this.loginForm.value.email ?? '', this.loginForm.value.password ?? '');
+    this.UserService.login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe({
+        next: token => this.token = token,
+        error: err => {
+          if (err.error.message) {
+            this.errorMessage = err.error.message
+          }
+        }
+      });
   }
 }
