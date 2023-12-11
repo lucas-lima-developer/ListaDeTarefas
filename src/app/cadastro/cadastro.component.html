@@ -1,1 +1,28 @@
-<p>cadastro works!</p>
+<div class="cadastro-container">
+  <h2>Cadastro</h2>
+  <form [formGroup]="cadastroForm" (submit)="submitCadastroForm()">
+    <label for="email">Email:</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      formControlName="email"
+      required
+    />
+
+    <label for="password">Senha:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      formControlName="password"
+      required
+    />
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <div class="error-message">
+    <p *ngIf="errorMessage">{{errorMessage}}</p>
+  </div>
+</div>
