@@ -26,10 +26,10 @@ export class UserService {
     );
   }
 
-  cadastrar(email: string, password: string) : Observable<any> {
+  cadastrar(email: string | null | undefined, password: string | null | undefined) : Observable<any> {
     const body = { email, password };
 
-    return this.http.post(`${this.apiUrl}/register`, body, { observe: 'response' })
+    return this.http.post(`${this.apiUrl}/register`, body, { observe: 'response' });
   }
 
   getToken() : BehaviorSubject<string | null> {

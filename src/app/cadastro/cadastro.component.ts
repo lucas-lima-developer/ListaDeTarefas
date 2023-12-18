@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro',
@@ -16,11 +17,22 @@ export class CadastroComponent {
     password: new FormControl('')
   });
 
-  errorMessage = '';
+  errorMessage: string | null = null;
 
-  constructor(private UserService: UserService) {}
+  constructor(private UserService: UserService, private router: Router) {}
 
   submitCadastroForm() {
-    this.UserService.cadastrar(this.cadastroForm.value.email ?? '', this.cadastroForm.value.password ?? '');
+    this.UserService.cadastrar(this.cadastroForm.value.email, this.cadastroForm.value.password).subscribe({
+      next: response => {
+        if (response.body.id) {
+          this.router.navigate(["/"]);
+        }
+      },
+      error: err => {
+        if (err.error.message) {
+          this.errorMessage = err.error.message;
+        }
+      }
+    });
   }
 }
