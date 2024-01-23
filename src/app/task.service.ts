@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Task } from './task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -9,19 +10,25 @@ import { Observable } from 'rxjs';
 })
 export class TaskService {
   private apiUrl = 'https://localhost:7173/api/tarefa';
-  private authToken = 'eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJsdWNhc3Rlc3RlQGVtYWlsLmNvbSIsImV4cCI6MTcwMDYzMDgwMX0.RmvLmzuFYXe6VtNslX11EY5RhoLGV-nhFpfEDx5ZTs-3uvOf5RSpcRVv-JwK9IIappkj6kUFp0wKcxku-f7yqQ';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   getTasks() : Observable<Task[]> {
+    const authToken = this.userService.getToken().getValue();
+
+    if (!authToken) {
+      console.error('Token ausente, Usuário não autenticado')
+      return new Observable();
+    }
+
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authToken}`
+      'Authorization': `Bearer ${authToken}`
     });
 
     const options = { headers: headers };
 
     const tasks = this.http.get<Task[]>(this.apiUrl, options);
-    console.log(tasks)
+    
     return tasks;
   }
 }
