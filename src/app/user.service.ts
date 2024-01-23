@@ -11,7 +11,12 @@ export class UserService {
 
   private userToken = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      this.userToken.next(storedToken);
+    }
+   }
 
   login(email: string | null | undefined, password: string | null | undefined): Observable<string> {
     const credentials = { email, password };
@@ -19,8 +24,13 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials, { observe: 'response' }).pipe(
       map(response => {
         if (response.body && response.body.token) {
-          this.userToken.next(response.body.token);
-          return response.body.token;
+          const token = response.body.token;
+          
+          this.userToken.next(token);
+
+          localStorage.setItem('token', token);
+
+          return token;
         }
       })
     );
