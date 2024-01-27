@@ -1,6 +1,15 @@
 <li *ngIf="task">
-    <strong>{{ task.title }}</strong>
-    <p>{{ task.description }}</p>
-    <p *ngIf="task.isCompleted; else notCompleted">Concluída em: {{ task.completionDate | date }}</p>
-    <ng-template #notCompleted>A fazer</ng-template>
+  <strong>{{ task.title }}</strong>
+  <p>{{ task.description }}</p>
+  <div>
+      <span *ngIf="task.isCompleted">
+        Concluída em: {{ task.completionDate | date }}
+      </span>
+      <span *ngIf="!task.isCompleted">A fazer</span>
+      <div class="span-container">
+          <span>
+            <button (click)="excluirTask()">Excluir</button>
+          </span>
+      </div>
+  </div>
 </li>

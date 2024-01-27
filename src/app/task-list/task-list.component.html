@@ -1,6 +1,6 @@
 <div class="task-list">
     <h2>Minhas Tarefas</h2>
-    <u *ngIf="tasks | async as tasks">
+    <p *ngIf="tasks | async as tasks">
         <app-task-item *ngFor="let task of tasks" [task]="task"></app-task-item>
-    </u>
+    </p>
 </div>
