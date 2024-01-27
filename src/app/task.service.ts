@@ -57,4 +57,22 @@ export class TaskService {
       }
     });
   }
+
+  deleteTask(id: number) {
+    const authToken = this.userService.getToken().getValue();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    })
+
+    const options = { headers: headers };
+
+    this.http.delete(`${this.apiUrl}/${id}`, options).subscribe({
+      next: taskDeleted => {
+        const currentTasks = this.tasksSubject.getValue();
+        const uptadetedTasks = currentTasks.filter(task => task.id !== id);
+        this.tasksSubject.next(uptadetedTasks);
+      }
+    });
+  }
 }
