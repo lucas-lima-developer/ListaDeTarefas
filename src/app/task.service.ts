@@ -58,6 +58,26 @@ export class TaskService {
     });
   }
 
+  updateTask(id: number, title: string, description: string, isCompleted: boolean) {
+    const authToken = this.userService.getToken().getValue();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    })
+
+    const options = { headers: headers };
+
+    const body = { id, title, description, isCompleted };
+
+    this.http.put<Task>(`${this.apiUrl}/${id}`, body, options).subscribe({
+      next: (taskUpdated : Task) => {
+        const currentTasks = this.tasksSubject.getValue();
+        const uptadetedTasks = currentTasks.map(task => task.id == taskUpdated.id ? taskUpdated : task);
+        this.tasksSubject.next(uptadetedTasks)
+      }
+    });
+  }
+
   deleteTask(id: number) {
     const authToken = this.userService.getToken().getValue();
 

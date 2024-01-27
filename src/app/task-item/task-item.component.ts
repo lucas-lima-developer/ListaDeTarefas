@@ -18,4 +18,10 @@ export class TaskItemComponent {
   excluirTask() {
     this.taskService.deleteTask(this.task!.id);
   }
+
+  finalizarTarefa() {
+    this.task!.isCompleted = !this.task!.isCompleted;
+
+    this.taskService.updateTask(this.task!.id, this.task!.title, this.task!.description, this.task!.isCompleted);
+  }
 }

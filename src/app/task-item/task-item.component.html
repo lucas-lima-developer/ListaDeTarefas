@@ -1,9 +1,13 @@
 <li *ngIf="task">
-  <strong>{{ task.title }}</strong>
-  <p>{{ task.description }}</p>
+  <span [ngClass]="{'strikethrough-text': task.isCompleted}">
+      <strong (click)="finalizarTarefa()">{{ task.title }}</strong>
+  </span>
+  <span [ngClass]="{'strikethrough-text': task.isCompleted}">
+    <p>{{ task.description }}</p>
+  </span>
   <div>
       <span *ngIf="task.isCompleted">
-        Concluída em: {{ task.completionDate | date }}
+        Concluída em: {{ task.completionDate | date:'dd/MM/yyyy' }} ás {{task.completionDate | date:'HH:mm'}}
       </span>
       <span *ngIf="!task.isCompleted">A fazer</span>
       <div class="span-container">
