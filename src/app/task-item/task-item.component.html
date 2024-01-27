@@ -1,9 +1,9 @@
 <li *ngIf="task">
-  <strong>{{ task.title }}</strong>
+  <strong (click)="finalizarTarefa()">{{ task.title }}</strong>
   <p>{{ task.description }}</p>
   <div>
       <span *ngIf="task.isCompleted">
-        Concluída em: {{ task.completionDate | date }}
+        Concluída em: {{ task.completionDate | date:'dd/MM/yyyy' }} ás {{task.completionDate | date:'HH:mm'}}
       </span>
       <span *ngIf="!task.isCompleted">A fazer</span>
       <div class="span-container">
