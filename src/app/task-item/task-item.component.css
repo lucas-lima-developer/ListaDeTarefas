@@ -5,3 +5,17 @@ li {
   border-radius: 4px;
   background-color: #f9f9f9;
 }
+
+.span-container {
+  text-align: right;
+}
+
+.span-container button {
+  background-color: #9c0f0f;
+  color: white;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 1s ease;
+}
