@@ -1,0 +1,23 @@
+<div class="create-task-container">
+    <form [formGroup]="createTaskForm" (submit)="submitCreateTaskForm()">
+      <label for="title">Título:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        formControlName="title"
+        required
+      />
+  
+      <label for="description">Descrição:</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        formControlName="description"
+        required
+      />
+  
+      <button type="submit">Criar Tarefa</button>
+    </form>
+  </div>

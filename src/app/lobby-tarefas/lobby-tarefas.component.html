@@ -1,7 +1,13 @@
-<div class="tarefas-container">
-    <button>Criar tarefa</button>
+<div>
+    <app-task-list></app-task-list>
 </div>
 
 <div>
-    <app-task-list></app-task-list>
+    <div class="button-container" *ngIf="!isCreateTaskButtonClicked">
+        <button (click)="createTaskButtonClicked()">Criar tarefa</button>
+    </div>
+    <div *ngIf="isCreateTaskButtonClicked" class="criar-tarefa-container">
+        <app-task-create-form (createTaskButtonClickedEvent)="createTaskButtonClicked()"></app-task-create-form>
+        <button (click)="createTaskButtonClicked()">Voltar</button>
+    </div>
 </div>
