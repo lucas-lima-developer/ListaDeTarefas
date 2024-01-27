@@ -19,3 +19,7 @@ li {
   cursor: pointer;
   transition: background-color 1s ease;
 }
+
+.strikethrough-text {
+  text-decoration: line-through;
+}
