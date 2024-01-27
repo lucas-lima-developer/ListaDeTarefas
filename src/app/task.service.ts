@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from './task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserService } from './user.service';
 
 
@@ -10,6 +10,8 @@ import { UserService } from './user.service';
 })
 export class TaskService {
   private apiUrl = 'https://localhost:7173/api/tarefa';
+
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -27,8 +29,32 @@ export class TaskService {
 
     const options = { headers: headers };
 
-    const tasks = this.http.get<Task[]>(this.apiUrl, options);
+    this.http.get<Task[]>(this.apiUrl, options).subscribe({
+      next: tasks => {
+        this.tasksSubject.next(tasks)
+      }
+    })
     
-    return tasks;
+    return this.tasksSubject;
+  }
+
+  createTask(title: string | null | undefined, description : string | null | undefined) {
+    const authToken = this.userService.getToken().getValue();
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${authToken}`
+    })
+
+    const options = { headers: headers };
+
+    const body = { title, description };
+
+    const task = this.http.post<Task>(this.apiUrl, body, options).subscribe({
+      next: newTask => {
+        const currentTasks = this.tasksSubject.getValue();
+        const uptadetedTasks = [...currentTasks, newTask];
+        this.tasksSubject.next(uptadetedTasks);
+      }
+    });
   }
 }
