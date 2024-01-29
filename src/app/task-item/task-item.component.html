@@ -1,19 +1,56 @@
 <li *ngIf="task">
-  <span [ngClass]="{'strikethrough-text': task.isCompleted}">
-      <strong (click)="finalizarTarefa()">{{ task.title }}</strong>
-  </span>
-  <span [ngClass]="{'strikethrough-text': task.isCompleted}">
-    <p>{{ task.description }}</p>
-  </span>
-  <div>
+  <div *ngIf="!isAtualizarButtonClicked">
+    <span (click)="finalizarTarefa()" [ngClass]="{ 'strikethrough-text': task.isCompleted }">
+      <strong>{{ task.title }}</strong>
+    </span>
+    <span [ngClass]="{ 'strikethrough-text': task.isCompleted }">
+      <p>{{ task.description }}</p>
+    </span>
+    <div>
       <span *ngIf="task.isCompleted">
-        Concluída em: {{ task.completionDate | date:'dd/MM/yyyy' }} ás {{task.completionDate | date:'HH:mm'}}
+        Concluída em: {{ task.completionDate | date : "dd/MM/yyyy" }} ás
+        {{ task.completionDate | date : "HH:mm" }}
       </span>
       <span *ngIf="!task.isCompleted">A fazer</span>
       <div class="span-container">
-          <span>
-            <button (click)="excluirTask()">Excluir</button>
-          </span>
+        <span>
+          <button class="atualizar-button" (click)="atualizarButtonClicked()">
+            Editar
+          </button>
+        </span>
+        <span>
+          <button class="excluir-button" (click)="excluirTask()">
+            Excluir
+          </button>
+        </span>
       </div>
+    </div>
+  </div>
+  <div *ngIf="isAtualizarButtonClicked">
+    <form [formGroup]="updateTaskForm" (submit)="submitUpdateTaskForm()">
+      <input
+        type="text"
+        id="title"
+        name="title"
+        formControlName="title"
+        required
+      />
+      <p></p>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        formControlName="description"
+        required
+      />
+      <div class="span-container">
+        <button class="atualizar-button" type="submit">Atualizar</button>
+        <span>
+          <button (click)="atualizarButtonClicked()" class="atualizar-button">
+            Voltar
+          </button>
+        </span>
+      </div>
+    </form>
   </div>
 </li>
